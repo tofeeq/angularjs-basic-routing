@@ -1,0 +1,75 @@
+<html ng-app="app">
+<head>
+<title>Hello AngularJS World</title>
+</head>
+<body>
+<h1> Intro to Angular</h1>
+<div ng-view>
+</div>
+
+
+<a href='#/'>main view</a><br/>
+<a href='#second'>second view</a><br/>
+<a href='#third'>third view</a>
+
+<script src="scripts/angular.js"></script>
+<script src="scripts/angular-route.js"></script>
+
+<script type="text/javascript">
+var app = angular.module('app',['ngRoute']);
+
+app.config(function($routeProvider){
+	$routeProvider.when('/',
+		{
+			controller: 'firstCtl',
+			templateUrl: 'views/MainView.html'
+		}
+	)
+	.when('/second',
+		{
+			controller: 'secondCtl',
+			template: 'this view2'
+		}
+	)
+	.when('/third',
+	{
+		controller: 'thirdCtl',
+		template: 'this view3'
+	})
+});
+
+app.controller('firstCtl', function($scope){
+
+$scope.jsFrameworks = [{id:1, name:'Backbone', coachingFee:100},
+						{id:2, name:'MarrionetteJS', coachingFee:200}, 
+						{id:3, name:'AngularJS', coachingFee:300}];						
+					
+});
+
+app.controller('secondCtl', function($scope, frameworkFactory){
+	
+	frameworkFactory.getJSFrameworks().success(function(data){
+			$scope.jsFrameworks = data;
+		});;
+	 
+});
+
+app.controller('thirdCtl', function($scope){
+
+});
+
+app.factory('frameworkFactory',function($http){
+	var frameworkFactory = {};
+	
+	frameworkFactory.getJSFrameworks = function() {	
+		return $http.get('/frameworks.json');
+	}
+	
+	return frameworkFactory
+	
+});
+
+</script>
+
+</body>
+</html>

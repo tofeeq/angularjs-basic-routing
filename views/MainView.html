@@ -1,0 +1,17 @@
+<div ng-controller='firstCtl'>
+<span> Search: </span><input type="text" ng-model="searchText">
+<div>You have entered: {{searchText}}</div><br/>
+<table>
+<tr ng-repeat="framework in jsFrameworks | filter:searchText" >
+<td>
+{{framework.id}}
+</td>
+<td>
+{{framework.name}}
+</td>
+<td>
+{{framework.coachingFee | currency}}
+</td>
+</tr>
+</table>
+</div>
